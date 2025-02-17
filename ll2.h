@@ -61,8 +61,10 @@ void insert( LLPtr *sPtr, int value, char Name[])
       // insert new node at beginning of list
       if ( previousPtr == NULL ) {
          newPtr->nextPtr = *sPtr;
-      
+         if(*sPtr) (*sPtr)->PPtr=newPtr; 
          *sPtr = newPtr;
+
+
       } // end if
       else { // insert new node between previousPtr and currentPtr
          previousPtr->nextPtr = newPtr;
@@ -160,13 +162,13 @@ void printList( LLPtr currentPtr )
          // while not the end of the list
          while ( currentPtr->nextPtr!= NULL ) {
             currentPtr = currentPtr->nextPtr;
-            size++;
+           // size++;
          } // end while
          
-         while ( size>0 ) {
+         while ( currentPtr->PPtr) {
             printf( "%d %s -->", currentPtr->ID, currentPtr->Name );
-            if (currentPtr->PPtr) currentPtr = currentPtr->PPtr;
-            size--;
+            currentPtr = currentPtr->PPtr;
+           
          }
          printf( "%d %s -->NULL",currentPtr->ID, currentPtr->Name );
          printf("\n");
@@ -179,10 +181,10 @@ void printList( LLPtr currentPtr )
       for (i=0;i<data;i++) {
          LLPtr tempPtr=*sPtr;
          int item=tempPtr->ID;
-      if (deletes(&tempPtr,item) ) { // remove item
-         printf( "%d deleted.\n", item );
          if((*sPtr)->nextPtr) *sPtr = (*sPtr)->nextPtr;
          if(*sPtr) (*sPtr)->PPtr==NULL;
+      if (deletes(&tempPtr,item) ) { // remove item
+         printf( "%d deleted.\n", item );
       }
    }
 
